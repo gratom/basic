@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Global.Managers.Datas
@@ -21,6 +22,24 @@ namespace Global.Managers.Datas
         public void PostInitData()
         {
             mainData.PostInit();
+        }
+
+        public List<BaseStageData> GetAllDataAsList()
+        {
+            return new List<BaseStageData>()
+            {
+                mainData
+            };
+        }
+
+        public void SetData(BaseStageData defaultData)
+        {
+            switch (defaultData.Stage)
+            {
+                case GameStage.Main:
+                    mainData = (MainData)defaultData;
+                    break;
+            }
         }
     }
 
