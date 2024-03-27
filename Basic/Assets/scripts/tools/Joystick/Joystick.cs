@@ -1,7 +1,7 @@
 using Tools;
 using UnityEngine;
 
-namespace Global.Managers.Forest
+namespace Tools
 {
     public class Joystick : MonoBehaviour
     {

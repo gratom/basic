@@ -9,12 +9,15 @@ namespace Global.Managers.Datas
 
         [SerializeField] private string dynamicDataLocation = "dynamicData";
         [SerializeField] private GameDataScriptableWrapper defaultGameData;
+        [SerializeField] private LocalizationData localizationData;
         [SerializeField] private GameBalanceData gameBalanceData;
 
 #pragma warning restore
 
         public string DynamicDataLocation => dynamicDataLocation;
         public GameDataScriptableWrapper DefaultGameData => defaultGameData;
+        public LocalizationData LocalizationData => localizationData;
+
         public GameBalanceData Balance => gameBalanceData;
     }
 }
