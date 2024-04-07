@@ -60,6 +60,23 @@ namespace Global.Managers.Datas
                 }
             }
         }
+
+        public int GetNewValueID()
+        {
+            //create new value, put it in list
+            //connect to google sheets
+            //update data
+            //put new value in sheet
+            //update data
+            //return new value
+            return 0;
+        }
+
+        public void UpdateValue(int id, string newValue)
+        {
+
+        }
+
     }
 
     [Serializable]
@@ -73,7 +90,6 @@ namespace Global.Managers.Datas
             for (int i = 0; i < languageContents.Count; i++)
             {
                 languageContainers.Add(new LanguageContentContainer((Language)(i + 1), Normalize(languageContents[i])));
-                ;
             }
         }
 

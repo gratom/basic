@@ -9,7 +9,7 @@ namespace Global.Components.Localization
     [Serializable]
     public abstract class BaseLocalizable
     {
-        [SerializeField] protected int id;
+        [SerializeField] protected int id = -1;
 
         public void Init()
         {

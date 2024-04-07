@@ -7,7 +7,7 @@ namespace Global.Components.Localization
 
     public abstract class BaseMonoLocalizable : MonoBehaviour
     {
-        [SerializeField] protected int id;
+        [SerializeField] protected int id = -1;
 
         private void Start()
         {
