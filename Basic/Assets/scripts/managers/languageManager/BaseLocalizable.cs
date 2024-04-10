@@ -22,7 +22,7 @@ namespace Global.Components.Localization
             Services.GetManager<DataManager>().DynamicData.Settings.OnLanguageChange -= OnLanguageChange;
         }
 
-        private void OnLanguageChange(Language language)
+        private void OnLanguageChange(GT.Language language)
         {
             LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(id));
         }

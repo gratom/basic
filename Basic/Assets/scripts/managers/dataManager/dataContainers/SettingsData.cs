@@ -7,14 +7,15 @@ namespace Global.Managers.Datas
     [Serializable]
     public class SettingsData
     {
-        [SerializeField] private Language currentLanguage = Language.EN;
+        [SerializeField] private GT.Language currentLanguage = GT.Language.English;
+        [SerializeField] private bool isFirstLoad = true;
 
-        public Language CurrentLanguage
+        public GT.Language CurrentLanguage
         {
             get => currentLanguage;
             set
             {
-                if (currentLanguage != value && value != Language.NULL)
+                if (currentLanguage != value && value != GT.Language.English)
                 {
                     currentLanguage = value;
                     OnLanguageChange?.Invoke(currentLanguage);
@@ -22,6 +23,12 @@ namespace Global.Managers.Datas
             }
         }
 
-        public event Action<Language> OnLanguageChange;
+        public bool IsFirstLoad
+        {
+            get => isFirstLoad;
+            set => isFirstLoad = value;
+        }
+
+        public event Action<GT.Language> OnLanguageChange;
     }
 }

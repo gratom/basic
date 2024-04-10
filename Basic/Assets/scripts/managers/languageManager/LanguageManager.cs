@@ -7,26 +7,34 @@ namespace Global.Managers.Localization
 {
     using Datas;
 
-    public enum Language
-    {
-        NULL = 0,
-        EN = 1,
-        RU = 2,
-        FR = 3,
-        PT = 4,
-        DE = 5
-    }
-
     public class LanguageManager : BaseManager
     {
         public override Type ManagerType => typeof(LanguageManager);
 
         private static Dictionary<SystemLanguage, Action> languageAutosetActionsDictionary = new Dictionary<SystemLanguage, Action>()
         {
-            { SystemLanguage.Russian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = Language.RU },
-            { SystemLanguage.French, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = Language.FR },
-            { SystemLanguage.Portuguese, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = Language.PT },
-            { SystemLanguage.German, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = Language.DE }
+            { SystemLanguage.Russian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Russian },
+            { SystemLanguage.Belarusian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Russian },
+            { SystemLanguage.Ukrainian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Ukrainian },
+            { SystemLanguage.French, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.French },
+            { SystemLanguage.Portuguese, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Portuguese },
+            { SystemLanguage.German, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.German },
+            { SystemLanguage.Arabic, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Arabic },
+            { SystemLanguage.Danish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Danish },
+            { SystemLanguage.Finnish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Finnish },
+            { SystemLanguage.Dutch, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Dutch },
+            { SystemLanguage.Greek, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Greek },
+            { SystemLanguage.Italian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Italian },
+            { SystemLanguage.Japanese, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Japanese },
+            { SystemLanguage.Korean, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Korean },
+            { SystemLanguage.Norwegian, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Norwegian },
+            { SystemLanguage.Polish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Polish },
+            { SystemLanguage.Spanish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Spanish },
+            { SystemLanguage.Swedish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Swedish },
+            { SystemLanguage.Turkish, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.Turkish },
+            { SystemLanguage.Chinese, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.ChineseSimplified },
+            { SystemLanguage.ChineseSimplified, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.ChineseSimplified },
+            { SystemLanguage.ChineseTraditional, () => Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.ChineseSimplified }
         };
 
 #pragma warning disable
@@ -40,15 +48,15 @@ namespace Global.Managers.Localization
 
         public void RefreshLanguages()
         {
-            if (Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage == Language.NULL)
+            if (Services.GetManager<DataManager>().DynamicData.Settings.IsFirstLoad)
             {
+                Services.GetManager<DataManager>().DynamicData.Settings.IsFirstLoad = false;
                 if (languageAutosetActionsDictionary.ContainsKey(Application.systemLanguage))
                 {
                     languageAutosetActionsDictionary[Application.systemLanguage]();
                     return;
                 }
-
-                Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = Language.EN;
+                Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage = GT.Language.English;
             }
         }
 

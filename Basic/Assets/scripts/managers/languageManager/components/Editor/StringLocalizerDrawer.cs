@@ -10,7 +10,6 @@ using UnityEngine;
 namespace Global.EditorScripts.Drawers
 {
 
-
     [CustomPropertyDrawer(typeof(StringLocalizer))]
     public class StringLocalizerDrawer : PropertyDrawer
     {

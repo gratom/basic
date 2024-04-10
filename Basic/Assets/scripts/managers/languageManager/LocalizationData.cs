@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using System.IO;
 
 #if UNITY_EDITOR
-using Global.Components.Localization;
 using UnityEditor;
 #endif
 
 namespace Global.Managers.Datas
 {
     using Tools;
-    using Localization;
+
 
     [CreateAssetMenu(fileName = "LocalizationData", menuName = "Scriptables/Localization data", order = 51)]
     public class LocalizationData : ScriptableObject
     {
-        private const string Extension = "csv";
-        private const string Title = "Select CSV";
-        private const string googleDocID = "1b0vhTZJDPU3v80Ov6YJTbMxMwxowag6BXdrIFQniS64";
+        private const string DEFAULT_DIRECTORY = "Assets/scriptables/localization/";
 
+        private const string EXTENSION = "csv";
+        private const string TITLE = "Select CSV";
+        private const string GOOGLE_DOC_ID = "1b0vhTZJDPU3v80Ov6YJTbMxMwxowag6BXdrIFQniS64";
+
+        [SerializeField] private List<ActiveLanguageContainer> allLanguages;
         [SerializeField] private List<LocalizationDataContainer> containers;
 
         public string GetTextByID(int id)
@@ -27,24 +29,50 @@ namespace Global.Managers.Datas
             return containers[id].GetTextByLanguage(Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage);
         }
 
+
+
 #if UNITY_EDITOR
 
         public string GetTextByIDDef(int id)
         {
-            return containers[id].GetTextByLanguage(Language.EN);
+            return containers[id].GetTextByLanguage(GT.Language.English);
+        }
+
+        [MenuItem("Localization/Create main Asset")]
+        public static void CreateLocalizationData()
+        {
+            // Create the directory if it doesn't exist
+            if (!Directory.Exists(DEFAULT_DIRECTORY))
+            {
+                Directory.CreateDirectory(DEFAULT_DIRECTORY);
+            }
+
+            // Generate a unique filename
+            string fileName = "MainLocalizationData.asset";
+            string filePath = AssetDatabase.GenerateUniqueAssetPath(DEFAULT_DIRECTORY + fileName);
+
+            // Create a new instance of the ScriptableObject
+            LocalizationData newData = CreateInstance<LocalizationData>();
+
+            // Save the ScriptableObject at the specified path
+            AssetDatabase.CreateAsset(newData, filePath);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = newData;
         }
 
         [ContextMenu("From CSV")]
         private void LoadFromFile()
         {
-            SetContainers(CSVParser.GetArrayFromFile(EditorUtility.OpenFilePanel(Title, Application.streamingAssetsPath, Extension)));
+            SetContainers(CSVParser.GetArrayFromFile(EditorUtility.OpenFilePanel(TITLE, Application.streamingAssetsPath, EXTENSION)));
         }
 
         [ContextMenu("From GoogleSheet")]
         private void UpdateFromGoogleSheet()
         {
             Action<string> x = str => { SetContainers(CSVParser.ParseArrayFromString(str)); };
-            CSVDownloader.Download(googleDocID, x);
+            CSVDownloader.Download(GOOGLE_DOC_ID, x);
         }
 
 #endif
@@ -77,52 +105,5 @@ namespace Global.Managers.Datas
 
         }
 
-    }
-
-    [Serializable]
-    public class LocalizationDataContainer
-    {
-        [SerializeField] private List<LanguageContentContainer> languageContainers;
-
-        public LocalizationDataContainer(List<string> languageContents)
-        {
-            languageContainers = new List<LanguageContentContainer>(languageContents.Count);
-            for (int i = 0; i < languageContents.Count; i++)
-            {
-                languageContainers.Add(new LanguageContentContainer((Language)(i + 1), Normalize(languageContents[i])));
-            }
-        }
-
-        private string Normalize(string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                value = value.Replace("\"", "");
-            }
-
-            return value;
-        }
-
-        public string GetTextByLanguage(Language language)
-        {
-            LanguageContentContainer cont = languageContainers.FirstOrDefault(container => container.Language == language);
-            return cont != null ? cont.Text : languageContainers.FirstOrDefault(container => container.Language == Language.EN)?.Text;
-        }
-    }
-
-    [Serializable]
-    public class LanguageContentContainer
-    {
-        [SerializeField] private Language language;
-        [SerializeField] private string text;
-
-        public Language Language => language;
-        public string Text => text;
-
-        public LanguageContentContainer(Language language, string text)
-        {
-            this.language = language;
-            this.text = text;
-        }
     }
 }

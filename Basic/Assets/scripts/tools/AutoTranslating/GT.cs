@@ -18,7 +18,6 @@ public static class GT
         German,
         Italian,
         ChineseSimplified,
-        ChineseTraditional,
         Japanese,
         Korean,
         Arabic,
@@ -30,7 +29,8 @@ public static class GT
         Finnish,
         Greek,
         Turkish,
-        Polish
+        Polish,
+        Ukrainian
     }
 
     private static readonly Dictionary<Language, string> language2Code = new Dictionary<Language, string>()
@@ -42,7 +42,6 @@ public static class GT
         { Language.German, "de" },
         { Language.Italian, "it" },
         { Language.ChineseSimplified, "zh-CN" },
-        { Language.ChineseTraditional, "zh-TW" },
         { Language.Japanese, "ja" },
         { Language.Korean, "ko" },
         { Language.Arabic, "ar" },
@@ -54,7 +53,8 @@ public static class GT
         { Language.Finnish, "fi" },
         { Language.Greek, "el" },
         { Language.Turkish, "tr" },
-        { Language.Polish, "pl" }
+        { Language.Polish, "pl" },
+        { Language.Ukrainian, "uk" }
     };
 
     public static string Translate(string text, Language inputLanguage, Language outputLanguage)

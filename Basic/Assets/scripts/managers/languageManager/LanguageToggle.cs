@@ -14,7 +14,7 @@ namespace Global.Components.Localization
     public class LanguageToggle : MonoBehaviour
     {
 #pragma warning disable
-        [SerializeField] private Language language = Language.NULL;
+        [SerializeField] private GT.Language language = GT.Language.English;
         [SerializeField] private Toggle toggle;
 #pragma warning restore
 
@@ -24,9 +24,9 @@ namespace Global.Components.Localization
             set => toggle.isOn = value;
         }
 
-        public Language Language => language;
+        public GT.Language Language => language;
 
-        public event Action<Language> OnChoose;
+        public event Action<GT.Language> OnChoose;
 
         private void OnValidate()
         {

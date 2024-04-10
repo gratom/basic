@@ -4,6 +4,7 @@ using Global.Components.Localization;
 using Global.Managers.Datas;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Global.EditorScripts.Drawers
 {
@@ -16,12 +17,29 @@ namespace Global.EditorScripts.Drawers
         private static LocalizationData data;
 
         private SerializedProperty id;
-
+        private SerializedProperty textProperty;
         private LocalizationStatusType statusType = LocalizationStatusType.NonInit;
+
+        private string textValue
+        {
+            get
+            {
+                if (textProperty != null)
+                {
+                    Text textComponent = textProperty.objectReferenceValue as Text;
+                    if (textComponent != null)
+                    {
+                        return textComponent.text;
+                    }
+                }
+                return "Text component reference is null";
+            }
+        }
 
         private void OnEnable()
         {
             errorStyle.normal.textColor = Color.red;
+            textProperty = serializedObject.FindProperty("text");
             id = serializedObject.FindProperty("id");
         }
 
@@ -38,15 +56,17 @@ namespace Global.EditorScripts.Drawers
                     statusType = LocalizationStatusType.NonInit;
                     id.intValue = data.GetNewValueID();
                 }
-
-                //EditorGUI.PropertyField(idRect, property.FindPropertyRelative("id"), GUIContent.none);
-                //string str = data.GetTextByIDDef(property.FindPropertyRelative("id").intValue);
-                //EditorGUI.LabelField(textRect, property.name + ": " + str);
             }
             else
             {
                 EditorGUILayout.LabelField("error : localization data not found", errorStyle);
+                if (GUILayout.Button("generate"))
+                {
+                    LocalizationData.CreateLocalizationData();
+                }
             }
+
+            EditorGUILayout.LabelField(textValue);
 
             serializedObject.ApplyModifiedProperties();
         }
