@@ -32,6 +32,7 @@ namespace Global.Managers.Datas
                 }
                 checkArray[index] = true;
             }
+
             for (int i = 0; i < checkArray.Length; i++)
             {
                 if (!checkArray[i])
@@ -42,6 +43,7 @@ namespace Global.Managers.Datas
                     language.enumValueIndex = i;
                 }
             }
+            allLanguages.GetArrayElementAtIndex(0).FindPropertyRelative("isActive").boolValue = true;
         }
 
         public override void OnInspectorGUI()
@@ -65,7 +67,16 @@ namespace Global.Managers.Datas
 
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(((GT.Language)languageContainer.FindPropertyRelative("language").enumValueIndex).ToString());
-                    isActive.boolValue = EditorGUILayout.Toggle("", isActive.boolValue);
+                    if (i == 0)
+                    {
+                        GUI.enabled = false; // Lock the toggle
+                        isActive.boolValue = EditorGUILayout.Toggle("", isActive.boolValue);
+                        GUI.enabled = true;
+                    }
+                    else
+                    {
+                        isActive.boolValue = EditorGUILayout.Toggle("", isActive.boolValue);
+                    }
                     EditorGUILayout.EndHorizontal();
                 }
                 EditorGUI.indentLevel--;
