@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -28,8 +29,6 @@ namespace Global.Managers.Datas
         {
             return containers[id].GetTextByLanguage(Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage);
         }
-
-
 
 #if UNITY_EDITOR
 
@@ -75,6 +74,34 @@ namespace Global.Managers.Datas
             CSVDownloader.Download(GOOGLE_DOC_ID, x);
         }
 
+        public int GetNewValueID()
+        {
+            //create new value, put it in list
+            LocalizationDataContainer dataContainer = new LocalizationDataContainer();
+
+            foreach (ActiveLanguageContainer languageContainer in allLanguages.Where(x => x.IsActive))
+            {
+                dataContainer.LanguageContainers.Add(new LanguageContentContainer(languageContainer.Language, ""));
+            }
+            containers.Add(dataContainer);
+            return containers.Count - 1;
+        }
+
+        public void UpdateValue(int id, string newValue)
+        {
+            LocalizationDataContainer container = containers[id];
+            if (container.LanguageContainers[0].Text != newValue)
+            {
+                container.LanguageContainers[0].Text = newValue;
+                container.TranslateAll();
+            }
+        }
+
+        public List<string> GetAllValues(int id)
+        {
+            return containers[id].LanguageContainers.Select(x => x.Text).ToList();
+        }
+
 #endif
 
         private void SetContainers(List<List<string>> unpreparedData)
@@ -84,26 +111,9 @@ namespace Global.Managers.Datas
                 containers = new List<LocalizationDataContainer>(unpreparedData.Count);
                 foreach (List<string> languageContents in unpreparedData)
                 {
-                    containers.Add(new LocalizationDataContainer(languageContents));
+                    //containers.Add(new LocalizationDataContainer(languageContents));
                 }
             }
         }
-
-        public int GetNewValueID()
-        {
-            //create new value, put it in list
-            //connect to google sheets
-            //update data
-            //put new value in sheet
-            //update data
-            //return new value
-            return 0;
-        }
-
-        public void UpdateValue(int id, string newValue)
-        {
-
-        }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿#if UNITY_EDITOR
 
+using System.Collections.Generic;
+using System.Linq;
 using Global.Components.Localization;
 using Global.Managers.Datas;
 using UnityEditor;
@@ -48,6 +50,8 @@ namespace Global.EditorScripts.Drawers
             TryFindData();
             serializedObject.Update();
 
+            EditorGUILayout.LabelField(textValue);
+
             // data can be null
             if (data != null)
             {
@@ -55,6 +59,22 @@ namespace Global.EditorScripts.Drawers
                 {
                     statusType = LocalizationStatusType.NonInit;
                     id.intValue = data.GetNewValueID();
+                    statusType = LocalizationStatusType.Initialized;
+                }
+                if (id.intValue != NON_INIT && !string.IsNullOrEmpty(textValue) && textValue != data.GetTextByIDDef(id.intValue))
+                {
+                    if (GUILayout.Button("update"))
+                    {
+                        data.UpdateValue(id.intValue, textValue);
+                    }
+                }
+                if (id.intValue != NON_INIT)
+                {
+                    IEnumerable<string> listAll = data.GetAllValues(id.intValue).Skip(1);
+                    foreach (string s in listAll)
+                    {
+                        EditorGUILayout.LabelField(s);
+                    }
                 }
             }
             else
@@ -66,7 +86,6 @@ namespace Global.EditorScripts.Drawers
                 }
             }
 
-            EditorGUILayout.LabelField(textValue);
 
             serializedObject.ApplyModifiedProperties();
         }

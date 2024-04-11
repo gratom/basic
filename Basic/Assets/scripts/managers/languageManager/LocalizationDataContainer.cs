@@ -9,31 +9,27 @@ namespace Global.Managers.Datas
     [Serializable]
     public class LocalizationDataContainer
     {
-        [SerializeField] private List<LanguageContentContainer> languageContainers;
-
-        public LocalizationDataContainer(List<string> languageContents)
+        [SerializeField] private List<LanguageContentContainer> languageContainers = new List<LanguageContentContainer>();
+#if UNITY_EDITOR
+        public List<LanguageContentContainer> LanguageContainers
         {
-            languageContainers = new List<LanguageContentContainer>(languageContents.Count);
-            for (int i = 0; i < languageContents.Count; i++)
-            {
-                languageContainers.Add(new LanguageContentContainer((GT.Language)(i + 1), Normalize(languageContents[i])));
-            }
+            get => languageContainers;
+            set => languageContainers = value;
         }
-
-        private string Normalize(string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                value = value.Replace("\"", "");
-            }
-
-            return value;
-        }
-
+#endif
         public string GetTextByLanguage(GT.Language language)
         {
             LanguageContentContainer cont = languageContainers.FirstOrDefault(container => container.Language == language);
             return cont != null ? cont.Text : languageContainers.FirstOrDefault(container => container.Language == GT.Language.English)?.Text;
         }
+#if UNITY_EDITOR
+        public void TranslateAll()
+        {
+            for (int i = 1; i < languageContainers.Count; i++)
+            {
+                languageContainers[i].Text = GT.Translate(languageContainers[0].Text, languageContainers[0].Language, languageContainers[i].Language);
+            }
+        }
+#endif
     }
 }

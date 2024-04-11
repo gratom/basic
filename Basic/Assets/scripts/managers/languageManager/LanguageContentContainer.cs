@@ -12,7 +12,13 @@ namespace Global.Managers.Datas
         [SerializeField] private string text;
 
         public GT.Language Language => language;
-        public string Text => text;
+        public string Text
+        {
+            get => text;
+#if UNITY_EDITOR
+            set => text = value;
+#endif
+        }
 
         public LanguageContentContainer(GT.Language language, string text)
         {

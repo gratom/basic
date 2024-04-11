@@ -12,5 +12,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68a120e168e2fa4d8b16cb63dcdf7e5, type: 3}
   m_Name: MainLocalizationData
   m_EditorClassIdentifier: 
-  allLanguages: []
-  containers: []
+  allLanguages:
+  - language: 0
+    isActive: 1
+  - language: 1
+    isActive: 0
+  - language: 2
+    isActive: 0
+  - language: 3
+    isActive: 0
+  - language: 4
+    isActive: 1
+  - language: 5
+    isActive: 0
+  - language: 6
+    isActive: 0
+  - language: 7
+    isActive: 0
+  - language: 8
+    isActive: 0
+  - language: 9
+    isActive: 0
+  - language: 10
+    isActive: 0
+  - language: 11
+    isActive: 0
+  - language: 12
+    isActive: 0
+  - language: 13
+    isActive: 0
+  - language: 14
+    isActive: 0
+  - language: 15
+    isActive: 0
+  - language: 16
+    isActive: 0
+  - language: 17
+    isActive: 0
+  - language: 18
+    isActive: 1
+  - language: 19
+    isActive: 1
+  containers:
+  - languageContainers:
+    - language: 0
+      text: New Text
+    - language: 4
+      text: Neuer Text
+    - language: 19
+      text: "\u041D\u043E\u0432\u0438\u0439 \u0442\u0435\u043A\u0441\u0442"
+    - language: 18
+      text: Nowy tekst
