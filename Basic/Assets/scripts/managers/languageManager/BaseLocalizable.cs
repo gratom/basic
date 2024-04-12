@@ -9,12 +9,12 @@ namespace Global.Components.Localization
     [Serializable]
     public abstract class BaseLocalizable
     {
-        [SerializeField] protected int id = -1;
+        [SerializeField] protected string key = "";
 
         public void Init()
         {
             Services.GetManager<DataManager>().DynamicData.Settings.OnLanguageChange += OnLanguageChange;
-            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(id));
+            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(key));
         }
 
         public void UnInit()
@@ -24,7 +24,7 @@ namespace Global.Components.Localization
 
         private void OnLanguageChange(GT.Language language)
         {
-            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(id));
+            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(key));
         }
 
         protected abstract void LanguageChangeAction(string newValue);

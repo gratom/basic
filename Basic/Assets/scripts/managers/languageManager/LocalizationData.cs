@@ -25,16 +25,38 @@ namespace Global.Managers.Datas
         [SerializeField] private List<ActiveLanguageContainer> allLanguages;
         [SerializeField] private List<LocalizationDataContainer> containers;
 
-        public string GetTextByID(int id)
+        private Dictionary<string, LocalizationDataContainer> dictionaryContainers;
+
+        public void InitDictionary()
         {
-            return containers[id].GetTextByLanguage(Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage);
+            if (dictionaryContainers == null)
+            {
+                Debug.Log("init");
+                dictionaryContainers = new Dictionary<string, LocalizationDataContainer>(containers.Count);
+                foreach (LocalizationDataContainer container in containers)
+                {
+                    dictionaryContainers.Add(container.Key, container);
+                }
+            }
+        }
+
+        public string GetTextByID(string key)
+        {
+            return dictionaryContainers[key].GetTextByLanguage(Services.GetManager<DataManager>().DynamicData.Settings.CurrentLanguage);
         }
 
 #if UNITY_EDITOR
 
-        public string GetTextByIDDef(int id)
+        public string GetTextByIDDef(string key)
         {
-            return containers[id].GetTextByLanguage(GT.Language.English);
+            InitDictionary();
+            return dictionaryContainers[key].GetTextByLanguage(GT.Language.English);
+        }
+
+        public bool IsContain(string key)
+        {
+            InitDictionary();
+            return dictionaryContainers.ContainsKey(key);
         }
 
         [MenuItem("Localization/Create main Asset")]
@@ -74,22 +96,35 @@ namespace Global.Managers.Datas
             CSVDownloader.Download(GOOGLE_DOC_ID, x);
         }
 
-        public int GetNewValueID()
+        public string GetNewValueKey(string key)
         {
             //create new value, put it in list
+            key = key.Replace(" ", "");
+            if (IsContain(key))
+            {
+                string newKey = key;
+                int iterator = 0;
+                while (IsContain(newKey))
+                {
+                    newKey = key + iterator;
+                }
+                key = newKey;
+            }
             LocalizationDataContainer dataContainer = new LocalizationDataContainer();
 
             foreach (ActiveLanguageContainer languageContainer in allLanguages.Where(x => x.IsActive))
             {
                 dataContainer.LanguageContainers.Add(new LanguageContentContainer(languageContainer.Language, ""));
             }
+            dataContainer.Key = key;
             containers.Add(dataContainer);
-            return containers.Count - 1;
+            dictionaryContainers.Add(dataContainer.Key, dataContainer);
+            return key;
         }
 
-        public void UpdateValue(int id, string newValue)
+        public void UpdateValue(string key, string newValue)
         {
-            LocalizationDataContainer container = containers[id];
+            LocalizationDataContainer container = dictionaryContainers[key];
             if (container.LanguageContainers[0].Text != newValue)
             {
                 container.LanguageContainers[0].Text = newValue;
@@ -97,9 +132,9 @@ namespace Global.Managers.Datas
             }
         }
 
-        public List<string> GetAllValues(int id)
+        public List<string> GetAllValues(string key)
         {
-            return containers[id].LanguageContainers.Select(x => x.Text).ToList();
+            return dictionaryContainers[key].LanguageContainers.Select(x => x.Text).ToList();
         }
 
 #endif
@@ -113,6 +148,17 @@ namespace Global.Managers.Datas
                 {
                     //containers.Add(new LocalizationDataContainer(languageContents));
                 }
+            }
+        }
+        public void DeleteElement(int index)
+        {
+            if (index >= 0 && index < containers.Count)
+            {
+                if (dictionaryContainers.ContainsKey(containers[index].Key))
+                {
+                    dictionaryContainers.Remove(containers[index].Key);
+                }
+                containers.RemoveAt(index);
             }
         }
     }

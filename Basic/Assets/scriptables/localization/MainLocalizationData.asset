@@ -18,7 +18,7 @@ MonoBehaviour:
   - language: 1
     isActive: 0
   - language: 2
-    isActive: 0
+    isActive: 1
   - language: 3
     isActive: 0
   - language: 4
@@ -50,16 +50,23 @@ MonoBehaviour:
   - language: 17
     isActive: 0
   - language: 18
-    isActive: 1
+    isActive: 0
   - language: 19
-    isActive: 1
+    isActive: 0
   containers:
-  - languageContainers:
+  - key: NewText
+    languageContainers:
     - language: 0
-      text: New Text
+      text: Hi, whats up?
+    - language: 2
+      text: "Salut, \xE7a va?"
     - language: 4
-      text: Neuer Text
-    - language: 19
-      text: "\u041D\u043E\u0432\u0438\u0439 \u0442\u0435\u043A\u0441\u0442"
-    - language: 18
-      text: Nowy tekst
+      text: Hi was geht?
+  - key: NewText0
+    languageContainers:
+    - language: 0
+      text: Main menu
+    - language: 2
+      text: Menu principal
+    - language: 4
+      text: "Hauptmen\xFC"

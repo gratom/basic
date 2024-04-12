@@ -7,12 +7,12 @@ namespace Global.Components.Localization
 
     public abstract class BaseMonoLocalizable : MonoBehaviour
     {
-        [SerializeField] protected int id = -1;
+        [SerializeField] protected string key = "";
 
         private void Start()
         {
             Services.GetManager<DataManager>().DynamicData.Settings.OnLanguageChange += OnLanguageChange;
-            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(id));
+            LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(key));
         }
 
         private void OnDestroy()
@@ -24,7 +24,7 @@ namespace Global.Components.Localization
         {
             if (this != null)
             {
-                LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(id));
+                LanguageChangeAction(Services.GetManager<LanguageManager>().GetTextByID(key));
             }
         }
 

@@ -36,7 +36,7 @@ namespace Global.EditorScripts.Drawers
 
             if (data != null)
             {
-                str = data.GetTextByIDDef(property.FindPropertyRelative("id").intValue);
+                //str = data.GetTextByIDDef(property.FindPropertyRelative("id").intValue);
                 EditorGUI.LabelField(textRect, property.name + ": " + str);
             }
             else

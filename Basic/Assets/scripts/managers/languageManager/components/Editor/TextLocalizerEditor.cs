@@ -13,14 +13,11 @@ namespace Global.EditorScripts.Drawers
     [CustomEditor(typeof(TextLocalizer))]
     public class TextLocalizerEditor : Editor
     {
-        private const int NON_INIT = -1;
-
-        private readonly GUIStyle errorStyle = new GUIStyle(EditorStyles.label);
+        private static GUIStyle errorStyle = new GUIStyle(EditorStyles.label);
         private static LocalizationData data;
 
-        private SerializedProperty id;
+        private SerializedProperty key;
         private SerializedProperty textProperty;
-        private LocalizationStatusType statusType = LocalizationStatusType.NonInit;
 
         private string textValue
         {
@@ -42,39 +39,47 @@ namespace Global.EditorScripts.Drawers
         {
             errorStyle.normal.textColor = Color.red;
             textProperty = serializedObject.FindProperty("text");
-            id = serializedObject.FindProperty("id");
+            key = serializedObject.FindProperty("key");
         }
 
         public override void OnInspectorGUI()
         {
             TryFindData();
             serializedObject.Update();
-
+            EditorGUILayout.LabelField(key.stringValue);
             EditorGUILayout.LabelField(textValue);
 
             // data can be null
             if (data != null)
             {
-                if (id.intValue == NON_INIT)
+                if (string.IsNullOrEmpty(key.stringValue))
                 {
-                    statusType = LocalizationStatusType.NonInit;
-                    id.intValue = data.GetNewValueID();
-                    statusType = LocalizationStatusType.Initialized;
+                    key.stringValue = data.GetNewValueKey(textValue);
                 }
-                if (id.intValue != NON_INIT && !string.IsNullOrEmpty(textValue) && textValue != data.GetTextByIDDef(id.intValue))
+                if (!string.IsNullOrEmpty(key.stringValue) && !string.IsNullOrEmpty(textValue) && data.IsContain(key.stringValue) && textValue != data.GetTextByIDDef(key.stringValue))
                 {
                     if (GUILayout.Button("update"))
                     {
-                        data.UpdateValue(id.intValue, textValue);
+                        data.UpdateValue(key.stringValue, textValue);
                     }
                 }
-                if (id.intValue != NON_INIT)
+                if (!string.IsNullOrEmpty(key.stringValue) && data.IsContain(key.stringValue))
                 {
-                    IEnumerable<string> listAll = data.GetAllValues(id.intValue).Skip(1);
+                    IEnumerable<string> listAll = data.GetAllValues(key.stringValue).Skip(1);
                     foreach (string s in listAll)
                     {
                         EditorGUILayout.LabelField(s);
                     }
+                }
+                if (!data.IsContain(key.stringValue))
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("error : missing key", errorStyle);
+                    if (GUILayout.Button("regenerate"))
+                    {
+                        key.stringValue = data.GetNewValueKey(textValue);
+                    }
+                    EditorGUILayout.EndHorizontal();
                 }
             }
             else
@@ -107,14 +112,6 @@ namespace Global.EditorScripts.Drawers
                 }
             }
         }
-    }
-
-    internal enum LocalizationStatusType
-    {
-        NonInit,
-        WaitingToInit,
-        Initialized,
-        Refreshing
     }
 }
 #endif

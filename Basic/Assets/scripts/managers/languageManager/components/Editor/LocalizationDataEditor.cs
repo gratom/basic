@@ -12,6 +12,7 @@ namespace Global.Managers.Datas
     {
         private SerializedProperty allLanguages;
         private SerializedProperty containers;
+        private readonly GUILayoutOption checkBoxStyle = GUILayout.Width(20);
 
         private void OnEnable()
         {
@@ -69,7 +70,6 @@ namespace Global.Managers.Datas
 
             if (allLanguages.isExpanded)
             {
-                GUILayoutOption checkBoxStyle = GUILayout.Width(20);
 
                 EditorGUI.indentLevel++;
                 for (int i = 0; i < allLanguages.arraySize; i++)
@@ -125,7 +125,15 @@ namespace Global.Managers.Datas
                 {
                     SerializedProperty container = containers.GetArrayElementAtIndex(i);
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(i + " " + container.FindPropertyRelative("languageContainers").GetArrayElementAtIndex(0).FindPropertyRelative("text").stringValue);
+                    if (GUILayout.Button("x", checkBoxStyle))
+                    {
+                        LocalizationData localizationData = (LocalizationData)serializedObject.targetObject;
+                        localizationData.DeleteElement(i);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField(i + " " + container.FindPropertyRelative("languageContainers").GetArrayElementAtIndex(0).FindPropertyRelative("text").stringValue);
+                    }
                     EditorGUILayout.EndHorizontal();
                 }
                 EditorGUI.indentLevel--;

@@ -9,7 +9,17 @@ namespace Global.Managers.Datas
     [Serializable]
     public class LocalizationDataContainer
     {
+        [SerializeField] private string key;
         [SerializeField] private List<LanguageContentContainer> languageContainers = new List<LanguageContentContainer>();
+
+        public string Key
+        {
+            get => key;
+#if UNITY_EDITOR
+            set => key = value;
+#endif
+        }
+
 #if UNITY_EDITOR
         public List<LanguageContentContainer> LanguageContainers
         {

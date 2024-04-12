@@ -66,6 +66,7 @@ namespace Global.Managers.Datas
             if (!isInit)
             {
                 LoadDynamicData();
+                staticData.LocalizationData.InitDictionary();
             }
 
             return true;

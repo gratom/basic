@@ -60,9 +60,9 @@ namespace Global.Managers.Localization
             }
         }
 
-        public string GetTextByID(int id)
+        public string GetTextByID(string key)
         {
-            return Services.GetManager<DataManager>().StaticData.LocalizationData.GetTextByID(id);
+            return Services.GetManager<DataManager>().StaticData.LocalizationData.GetTextByID(key);
         }
     }
 }
