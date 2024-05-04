@@ -20,11 +20,11 @@ MonoBehaviour:
   - language: 2
     isActive: 1
   - language: 3
-    isActive: 0
-  - language: 4
     isActive: 1
-  - language: 5
+  - language: 4
     isActive: 0
+  - language: 5
+    isActive: 1
   - language: 6
     isActive: 0
   - language: 7
@@ -53,20 +53,4 @@ MonoBehaviour:
     isActive: 0
   - language: 19
     isActive: 0
-  containers:
-  - key: NewText
-    languageContainers:
-    - language: 0
-      text: Hi, whats up?
-    - language: 2
-      text: "Salut, \xE7a va?"
-    - language: 4
-      text: Hi was geht?
-  - key: NewText0
-    languageContainers:
-    - language: 0
-      text: Main menu
-    - language: 2
-      text: Menu principal
-    - language: 4
-      text: "Hauptmen\xFC"
+  containers: []

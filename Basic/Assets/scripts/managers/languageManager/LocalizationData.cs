@@ -99,6 +99,10 @@ namespace Global.Managers.Datas
         public string GetNewValueKey(string key)
         {
             //create new value, put it in list
+            if (string.IsNullOrEmpty(key))
+            {
+                key = Guid.NewGuid().ToString();
+            }
             key = key.Replace(" ", "");
             if (IsContain(key))
             {
@@ -119,6 +123,7 @@ namespace Global.Managers.Datas
             dataContainer.Key = key;
             containers.Add(dataContainer);
             dictionaryContainers.Add(dataContainer.Key, dataContainer);
+            EditorUtility.SetDirty(this);
             return key;
         }
 
@@ -130,6 +135,8 @@ namespace Global.Managers.Datas
                 container.LanguageContainers[0].Text = newValue;
                 container.TranslateAll();
             }
+
+            EditorUtility.SetDirty(this);
         }
 
         public List<string> GetAllValues(string key)
@@ -137,6 +144,18 @@ namespace Global.Managers.Datas
             return dictionaryContainers[key].LanguageContainers.Select(x => x.Text).ToList();
         }
 
+        public void DeleteElement(int index)
+        {
+            if (index >= 0 && index < containers.Count)
+            {
+                if (dictionaryContainers.ContainsKey(containers[index].Key))
+                {
+                    dictionaryContainers.Remove(containers[index].Key);
+                }
+                containers.RemoveAt(index);
+            }
+            EditorUtility.SetDirty(this);
+        }
 #endif
 
         private void SetContainers(List<List<string>> unpreparedData)
@@ -148,17 +167,6 @@ namespace Global.Managers.Datas
                 {
                     //containers.Add(new LocalizationDataContainer(languageContents));
                 }
-            }
-        }
-        public void DeleteElement(int index)
-        {
-            if (index >= 0 && index < containers.Count)
-            {
-                if (dictionaryContainers.ContainsKey(containers[index].Key))
-                {
-                    dictionaryContainers.Remove(containers[index].Key);
-                }
-                containers.RemoveAt(index);
             }
         }
     }

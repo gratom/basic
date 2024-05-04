@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class test1 : MonoBehaviour
 {
-    [SerializeField] private Mesh mesh;
+
+    [SerializeField] private StringLocalizer description;
 
     public void Test()
     {
-
+        string s = description;
     }
 
 }
