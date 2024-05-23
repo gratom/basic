@@ -28,7 +28,7 @@ MonoBehaviour:
   - language: 6
     isActive: 0
   - language: 7
-    isActive: 0
+    isActive: 1
   - language: 8
     isActive: 0
   - language: 9
@@ -53,4 +53,40 @@ MonoBehaviour:
     isActive: 0
   - language: 19
     isActive: 0
-  containers: []
+  containers:
+  - key: name
+    languageContainers:
+    - language: 0
+      text: New name
+    - language: 2
+      text: Nouveau nom
+    - language: 3
+      text: Nuevo nombre
+    - language: 5
+      text: Nuovo nome
+    - language: 7
+      text: "\u65B0\u3057\u3044\u540D\u524D"
+  - key: name0
+    languageContainers:
+    - language: 0
+      text: name
+    - language: 2
+      text: nom
+    - language: 3
+      text: nombre
+    - language: 5
+      text: nome
+    - language: 7
+      text: "\u540D\u524D"
+  - key: 157b67c3-d080-4b90-aed5-6a1f643c321e
+    languageContainers:
+    - language: 0
+      text: description
+    - language: 2
+      text: description
+    - language: 3
+      text: "descripci\xF3n"
+    - language: 5
+      text: descrizione
+    - language: 7
+      text: "\u8AAC\u660E"
