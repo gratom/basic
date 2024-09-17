@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tools;
 using UnityEngine;
 
 namespace Global.Managers.Localization

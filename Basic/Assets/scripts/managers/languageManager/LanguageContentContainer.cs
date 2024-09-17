@@ -1,6 +1,7 @@
 ﻿using System;
 using Global.Components.Localization;
 using Global.Managers.Localization;
+using Tools;
 using UnityEngine;
 
 namespace Global.Managers.Datas

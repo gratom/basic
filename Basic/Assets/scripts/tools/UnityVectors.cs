@@ -37,6 +37,11 @@ namespace Tools
             return new Vector3(Random.Range(point1.x, point2.x), Random.Range(point1.y, point2.y), Random.Range(point1.z, point2.z));
         }
 
+        public static float Abs(this float f)
+        {
+            return Mathf.Abs(f);
+        }
+
     }
 
 }

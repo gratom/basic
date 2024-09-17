@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tools
 {
@@ -195,6 +197,30 @@ namespace Tools
 
         #endregion truncate position
 
+        public static Transform SetRotation(this Transform transform, Vector3 Rot)
+        {
+            transform.rotation = Quaternion.Euler(Rot);
+            return transform;
+        }
+
+        public static Transform SetRotationX(this Transform transform, float XRot)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(XRot, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
+            return transform;
+        }
+
+        public static Transform SetRotationY(this Transform transform, float YRot)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, YRot, transform.rotation.eulerAngles.z));
+            return transform;
+        }
+
+        public static Transform SetRotationZ(this Transform transform, float ZRot)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, ZRot));
+            return transform;
+        }
+
         public static RectTransform CopyValuesFrom(this RectTransform transform, RectTransform other)
         {
             transform.anchorMin = other.anchorMin;
@@ -212,6 +238,65 @@ namespace Tools
             using SHA256 sha256 = SHA256.Create();
             byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(basic));
             return BitConverter.ToString(hashBytes, 0).Replace("-", string.Empty);
+        }
+
+        public static void DestroyAllChildren(this Transform transform)
+        {
+            // Iterate through all the child transforms and destroy them
+            foreach (Transform child in transform)
+            {
+                Object.Destroy(child.gameObject);
+            }
+        }
+
+        // Extension method to find the first GameObject in children based on a condition
+        public static GameObject FirstGOinChild(this Transform parent, Func<GameObject, bool> selector)
+        {
+            if (parent == null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            foreach (Transform child in parent)
+            {
+                GameObject childGO = child.gameObject;
+                if (selector(childGO))
+                {
+                    return childGO;
+                }
+            }
+
+            return null;
+        }
+
+        // Extension method to find all GameObjects in children based on a condition
+        public static List<GameObject> Where(this Transform parent, Func<GameObject, bool> selector)
+        {
+            if (parent == null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            List<GameObject> result = new List<GameObject>();
+
+            foreach (Transform child in parent)
+            {
+                GameObject childGO = child.gameObject;
+                if (selector(childGO))
+                {
+                    result.Add(childGO);
+                }
+            }
+
+            return result;
         }
     }
 }

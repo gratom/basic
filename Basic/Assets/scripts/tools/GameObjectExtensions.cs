@@ -2,11 +2,11 @@
 
 namespace Tools
 {
-    public static class OverGenerator
+    public static class GameObjectExtensions
     {
 #pragma warning disable
 
-        public static T GetComponentUnconditionally<T>(this GameObject gameObject) where T : Component
+        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
         {
             T returned = gameObject.GetComponent<T>();
             if (returned == null)
@@ -18,4 +18,5 @@ namespace Tools
 
 #pragma warning restore
     }
+
 }

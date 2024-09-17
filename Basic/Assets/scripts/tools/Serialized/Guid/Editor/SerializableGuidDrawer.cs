@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace tools
+namespace Tools
 {
     [CustomPropertyDrawer(typeof(SerializableGuid))]
     public class SerializableGuidPropertyDrawer : PropertyDrawer

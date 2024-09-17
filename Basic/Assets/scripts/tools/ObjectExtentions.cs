@@ -2,18 +2,21 @@
 using System.Reflection;
 using System.ArrayExtensions;
 using System.Collections;
-using System.Linq;
 
 namespace System
 {
+
     public static class ObjectExtensions
     {
         private static readonly MethodInfo CloneMethod = typeof(object).GetMethod("MemberwiseClone", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static bool IsPrimitive(this Type type)
         {
-            if (type == typeof(string)) return true;
-            return (type.IsValueType & type.IsPrimitive);
+            if (type == typeof(string))
+            {
+                return true;
+            }
+            return type.IsValueType & type.IsPrimitive;
         }
 
         public static object Copy(this object originalObject)
@@ -23,11 +26,23 @@ namespace System
 
         private static object InternalCopy(object originalObject, IDictionary<object, object> visited)
         {
-            if (originalObject == null) return null;
+            if (originalObject == null)
+            {
+                return null;
+            }
             Type typeToReflect = originalObject.GetType();
-            if (IsPrimitive(typeToReflect)) return originalObject;
-            if (visited.ContainsKey(originalObject)) return visited[originalObject];
-            if (typeof(Delegate).IsAssignableFrom(typeToReflect)) return null;
+            if (IsPrimitive(typeToReflect))
+            {
+                return originalObject;
+            }
+            if (visited.ContainsKey(originalObject))
+            {
+                return visited[originalObject];
+            }
+            if (typeof(Delegate).IsAssignableFrom(typeToReflect))
+            {
+                return null;
+            }
             object cloneObject = CloneMethod.Invoke(originalObject, null);
             if (typeToReflect.IsArray)
             {
@@ -58,8 +73,14 @@ namespace System
         {
             foreach (FieldInfo fieldInfo in typeToReflect.GetFields(bindingFlags))
             {
-                if (filter != null && filter(fieldInfo) == false) continue;
-                if (IsPrimitive(fieldInfo.FieldType)) continue;
+                if (filter != null && filter(fieldInfo) == false)
+                {
+                    continue;
+                }
+                if (IsPrimitive(fieldInfo.FieldType))
+                {
+                    continue;
+                }
                 object originalFieldValue = fieldInfo.GetValue(originalObject);
                 object clonedFieldValue = InternalCopy(originalFieldValue, visited);
                 fieldInfo.SetValue(cloneObject, clonedFieldValue);
@@ -91,10 +112,15 @@ namespace System
         {
             public static void ForEach(this Array array, Action<Array, int[]> action)
             {
-                if (array.LongLength == 0) return;
+                if (array.LongLength == 0)
+                {
+                    return;
+                }
                 ArrayTraverse walker = new ArrayTraverse(array);
-                do action(array, walker.Position);
-                while (walker.Step());
+                do
+                {
+                    action(array, walker.Position);
+                } while (walker.Step());
             }
         }
 

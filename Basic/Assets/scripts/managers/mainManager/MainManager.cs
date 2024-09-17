@@ -25,6 +25,7 @@ namespace Global.Managers
         public void EntryPoint()
         {
             Services.GetManager<DataManager>().StaticData.Balance.Init();
+            Services.GetManager<DataManager>().DynamicData.Settings.ApplyApplicationSetting();
             ContinueGame();
         }
 
@@ -36,7 +37,7 @@ namespace Global.Managers
         public void ContinueGame()
         {
             //creating new data (full, from zero)
-            if (!Services.GetManager<DataManager>().DynamicData.GameData.isInit)
+            if (Services.GetManager<DataManager>().DynamicData.GameData == null || !Services.GetManager<DataManager>().DynamicData.GameData.isInit)
             {
                 Debug.Log("data is null. create new");
                 Services.GetManager<DataManager>().DynamicData.GameData = Services.GetManager<DataManager>().StaticData.DefaultGameData.GetCopyOfData();
@@ -65,6 +66,12 @@ namespace Global.Managers
                     }
                 }
             }
+        }
+
+        public void ClearData()
+        {
+            Services.GetManager<DataManager>().DynamicData.GameData = Services.GetManager<DataManager>().StaticData.DefaultGameData.GetCopyOfData();
+            Services.GetManager<DataManager>().DynamicData.GameData.mainData.PostInit();
         }
     }
 }

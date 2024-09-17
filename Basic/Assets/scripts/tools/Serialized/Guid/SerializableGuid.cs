@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace tools
+namespace Tools
 {
     [Serializable]
     public struct SerializableGuid :

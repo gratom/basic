@@ -1,5 +1,5 @@
 using System;
-using Global.Managers.Localization;
+using Tools;
 using UnityEngine;
 
 namespace Global.Managers.Datas
@@ -30,5 +30,9 @@ namespace Global.Managers.Datas
         }
 
         public event Action<GT.Language> OnLanguageChange;
+        public void ApplyApplicationSetting()
+        {
+            Debug.Log("Realize applying settings");
+        }
     }
 }

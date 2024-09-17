@@ -39,4 +39,20 @@ namespace Tools
             }
         }
     }
+
+    public static class StringExtension
+    {
+        public static string ToBigMoney(this ulong value)
+        {
+            string money = value.ToString();
+
+            for (int i = money.Length - 3; i > 0; i -= 3)
+            {
+                money = money.Insert(i, " ");
+            }
+
+            return money;
+        }
+    }
+
 }

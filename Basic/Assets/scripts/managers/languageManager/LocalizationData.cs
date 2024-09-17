@@ -18,10 +18,6 @@ namespace Global.Managers.Datas
     {
         private const string DEFAULT_DIRECTORY = "Assets/scriptables/localization/";
 
-        private const string EXTENSION = "csv";
-        private const string TITLE = "Select CSV";
-        private const string GOOGLE_DOC_ID = "1b0vhTZJDPU3v80Ov6YJTbMxMwxowag6BXdrIFQniS64";
-
         [SerializeField] private List<ActiveLanguageContainer> allLanguages;
         [SerializeField] private List<LocalizationDataContainer> containers;
 
@@ -81,19 +77,6 @@ namespace Global.Managers.Datas
             AssetDatabase.Refresh();
             EditorUtility.FocusProjectWindow();
             Selection.activeObject = newData;
-        }
-
-        [ContextMenu("From CSV")]
-        private void LoadFromFile()
-        {
-            SetContainers(CSVParser.GetArrayFromFile(EditorUtility.OpenFilePanel(TITLE, Application.streamingAssetsPath, EXTENSION)));
-        }
-
-        [ContextMenu("From GoogleSheet")]
-        private void UpdateFromGoogleSheet()
-        {
-            Action<string> x = str => { SetContainers(CSVParser.ParseArrayFromString(str)); };
-            CSVDownloader.Download(GOOGLE_DOC_ID, x);
         }
 
         public string GetNewValueKey(string key)
@@ -158,16 +141,5 @@ namespace Global.Managers.Datas
         }
 #endif
 
-        private void SetContainers(List<List<string>> unpreparedData)
-        {
-            if (unpreparedData != null)
-            {
-                containers = new List<LocalizationDataContainer>(unpreparedData.Count);
-                foreach (List<string> languageContents in unpreparedData)
-                {
-                    //containers.Add(new LocalizationDataContainer(languageContents));
-                }
-            }
-        }
     }
 }

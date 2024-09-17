@@ -2,7 +2,7 @@
 
 namespace Tools
 {
-    public static class ColorExtentions
+    public static class ColorExtensions
     {
         public static string ToHtmlStringRGBA(this Color color)
         {
@@ -11,7 +11,7 @@ namespace Tools
             int b = (int)(color.b * 255);
             int a = (int)(color.a * 255);
 
-            return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", r, g, b, a);
+            return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
         }
     }
 }

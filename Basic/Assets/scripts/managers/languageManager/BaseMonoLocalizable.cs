@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tools;
+using UnityEngine;
 
 namespace Global.Components.Localization
 {

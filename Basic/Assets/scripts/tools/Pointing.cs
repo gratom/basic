@@ -3,7 +3,6 @@
 namespace Tools
 {
     public static class Pointing
-
     {
         public static Vector3 MostLikelyPoint(Vector3[] arrayOfPoints, Ray ray, float angleWeight = 0.8f, float distanceWeight = 0.2f)
         {
@@ -28,7 +27,7 @@ namespace Tools
             {
                 float currentAngle = Vector3.Angle(rayDirection, arrayOfPoints[i] - rayOrigin);
                 float currentDistance = Vector3.Distance(arrayOfPoints[i], rayOrigin);
-                float currentValue = (Mathf.Sin(currentAngle * Mathf.Deg2Rad) * angleWeight * currentDistance) + (currentDistance * distanceWeight);
+                float currentValue = Mathf.Sin(currentAngle * Mathf.Deg2Rad) * angleWeight * currentDistance + currentDistance * distanceWeight;
                 if (currentValue < bestValue)
                 {
                     bestValue = currentValue;
